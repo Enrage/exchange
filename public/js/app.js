@@ -1995,7 +1995,7 @@ __webpack_require__.r(__webpack_exports__);
       return this.inputSum <= 0 || this.inputSum === '' ? 0 : (parseFloat(this.inputSum) - parseFloat(this.commission)).toFixed(2);
     },
     getFinalSum: function getFinalSum() {
-      return this.weSendSum * this.price;
+      return (this.weSendSum * this.price).toFixed(2);
     }
   },
   methods: {
@@ -2014,11 +2014,17 @@ __webpack_require__.r(__webpack_exports__);
     },
     changeCurrency: function changeCurrency(event) {
       this.firstCur = event.target.value;
-      this.rateExchange(this.firstCur, this.secondCur);
+
+      if (this.firstCur !== this.secondCur) {
+        this.rateExchange(this.firstCur, this.secondCur);
+      } else this.price = 1;
     },
     changeCrypto: function changeCrypto(event) {
       this.secondCur = event.target.value;
-      this.rateExchange(this.firstCur, this.secondCur);
+
+      if (this.secondCur !== this.firstCur) {
+        this.rateExchange(this.firstCur, this.secondCur);
+      } else this.price = 1;
     },
     showExchangeForm: function showExchangeForm(event) {
       event.target.style.display = 'none';
@@ -2026,6 +2032,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     toggleVisible: function toggleVisible() {
       this.isVisible = !this.isVisible;
+    },
+    doInputSum: function doInputSum(value) {
+      this.inputSum = value.replace(/[^\d]/g, '');
     },
     toggleTimeMode: function toggleTimeMode() {
       var changeModeBtn = document.getElementById('change-time-mode');
@@ -38323,6 +38332,12 @@ var render = function() {
                 attrs: { type: "text", name: "withdrawal", id: "withdrawal" },
                 domProps: { value: _vm.inputSum },
                 on: {
+                  keyup: function($event) {
+                    return _vm.doInputSum($event.target.value)
+                  },
+                  paste: function($event) {
+                    $event.preventDefault()
+                  },
                   input: function($event) {
                     if ($event.target.composing) {
                       return

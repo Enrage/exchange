@@ -7,7 +7,7 @@
                 <div class="top-exchange">
                     <div class="withdrawal-sum">
                         <label for="withdrawal">Сумма к выводу</label>
-                        <input type="text" name="withdrawal" id="withdrawal" v-model="inputSum">
+                        <input type="text" name="withdrawal" id="withdrawal" v-model="inputSum" v-on:keyup="doInputSum($event.target.value)" @paste.prevent>
                     </div>
                     <div class="currency-change">
                         <label for="currency">Валюта</label>
@@ -88,7 +88,7 @@
             },
 
             getFinalSum() {
-                return this.weSendSum * this.price;
+                return (this.weSendSum * this.price).toFixed(2);
             }
         },
 
@@ -108,12 +108,16 @@
 
             changeCurrency(event) {
                 this.firstCur = event.target.value;
-                this.rateExchange(this.firstCur, this.secondCur);
+                if (this.firstCur !== this.secondCur) {
+                    this.rateExchange(this.firstCur, this.secondCur);
+                } else this.price = 1;
             },
 
             changeCrypto(event) {
                 this.secondCur = event.target.value;
-                this.rateExchange(this.firstCur, this.secondCur);
+                if (this.secondCur !== this.firstCur) {
+                    this.rateExchange(this.firstCur, this.secondCur);
+                } else this.price = 1;
             },
 
             showExchangeForm(event) {
@@ -123,6 +127,10 @@
 
             toggleVisible() {
                 this.isVisible = !this.isVisible;
+            },
+
+            doInputSum(value) {
+                this.inputSum = value.replace(/[^\d]/g, '');
             },
 
             toggleTimeMode() {
