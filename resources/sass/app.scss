@@ -1,8 +1,40 @@
-// Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
-
-// Variables
 @import 'variables';
-
-// Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+body {
+  height: 100vh;
+  width: 100vw;
+}
+
+main {
+  height: 100%;
+  width: 100%;
+}
+
+#wrapper {
+  width: 100%;
+  height: 100%;
+  background: #242432;
+}
+
+.link-to-service {
+  font-size: 22px;
+  border: 1px solid #fba700;
+  position: absolute;
+  width: 260px;
+  height: 50px;
+  top: 50%;
+  margin-top: -25px;
+  left: 50%;
+  margin-left: -130px;
+  color: #fba700;
+  line-height: 50px;
+  text-align: center;
+  transition: all .2s ease-in-out;
+  &:hover {
+    color: #f0f0ff;
+    background: #fba700;
+    text-decoration: none;
+  }
+}
