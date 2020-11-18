@@ -127,12 +127,17 @@
 
             toggleTimeMode() {
                 const changeModeBtn = document.getElementById('change-time-mode');
+                const wrapper = document.getElementById('wrapper');
                 if (changeModeBtn.classList.contains('dark-mode')) {
                     changeModeBtn.classList.remove('dark-mode');
                     changeModeBtn.classList.add('light-mode');
+                    wrapper.classList.remove('dark');
+                    wrapper.classList.add('light');
                 } else {
                     changeModeBtn.classList.remove('light-mode');
                     changeModeBtn.classList.add('dark-mode');
+                    wrapper.classList.remove('light');
+                    wrapper.classList.add('dark');
                 }
             }
         }
@@ -150,6 +155,84 @@
                 background: #31313e;
                 color: #f0f0ff;
                 box-shadow: 0 24px 30px rgba(0, 0, 0, 0.15);
+            }
+
+            #exchange-form {
+                background: #31313e;
+                box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            }
+
+            input, select, option {
+                background: #3b3b49;
+                color: #fba700;
+            }
+
+            .currency {
+                &::before {
+                    background: #fba700;
+                }
+                &::after {
+                    background: #fba700;
+                }
+            }
+
+            label {
+                color: #f0f0ff;
+            }
+
+            .ctrl-btns {
+                .send {
+                    background: #fba700;
+                    color: #fff;
+                    box-shadow: 0 15px 15px rgba(9, 9, 25, 0.2);
+                }
+                .go-back {
+                    color: #fba700;
+                }
+            }
+        }
+
+        &.light {
+            background: #f0f0ff;
+
+            .press-me-btn {
+                background: #fff;
+                color: #000;
+                box-shadow: 0 24px 30px rgba(9, 9, 25, 0.05);
+            }
+
+            #exchange-form {
+                background: #fff;
+                box-shadow: 0 15px 30px rgba(9, 9, 25, 0.05);
+            }
+
+            input, select, option {
+                background: #f5f5ff;
+                color: #2929cc;
+            }
+
+            .currency {
+                &::before {
+                    background: #2929cc;
+                }
+                &::after {
+                    background: #2929cc;
+                }
+            }
+
+            label {
+                color: #000;
+            }
+
+            .ctrl-btns {
+                .send {
+                    background: #2929cc;
+                    color: #fff;
+                    box-shadow: 0 15px 15px rgba(9, 9, 25, 0.2);
+                }
+                .go-back {
+                    color: #2929cc;
+                }
             }
         }
     }
@@ -178,8 +261,6 @@
     #exchange-form {
         width: 720px;
         height: 277px;
-        background: #31313e;
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
         border-radius: 15px;
         display: flex;
         flex-direction: column;
@@ -217,8 +298,6 @@
         }
 
         input, select, option {
-            background: #3b3b49;
-            color: #fba700;
             text-align: center;
             border-radius: 15px;
             font-size: 16px;
@@ -254,7 +333,6 @@
                 top: 28px;
                 width: 12px;
                 height: 2px;
-                background: #fba700;
                 transform: rotate(44deg);
                 z-index: 20;
             }
@@ -266,14 +344,12 @@
                 width: 12px;
                 top: 28px;
                 height: 2px;
-                background: #fba700;
                 transform: rotate(-44deg);
                 z-index: 20;
             }
         }
         label {
             font-size: 16px;
-            color: #f0f0ff;
         }
     }
 
@@ -287,12 +363,9 @@
             height: 60px;
             text-align: center;
             line-height: 60px;
-            background: #fba700;
-            color: #fff;
             border-radius: 30px;
             font-size: 20px;
             font-weight: bold;
-            box-shadow: 0 15px 15px rgba(0, 0, 0, 0.2);
         }
         .go-back {
             margin-top: 30px;
