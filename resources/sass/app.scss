@@ -1,3 +1,25 @@
+@font-face {
+  font-family: 'Lato';
+  src: local('Lato'),
+       url('../fonts/Lato-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Lato';
+  src: local('Lato'),
+       url('../fonts/Lato-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Lato';
+  src: local('Lato'),
+       url('../fonts/Lato-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
 @import url('https://fonts.googleapis.com/css?family=Nunito');
 @import 'variables';
 @import '~bootstrap/scss/bootstrap';
@@ -20,6 +42,7 @@ main {
   width: 100%;
   height: 100%;
   background: #242432;
+  font-family: 'Lato';
 }
 
 .link-to-service {

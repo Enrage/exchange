@@ -309,6 +309,7 @@
             text-align: center;
             border-radius: 15px;
             font-size: 16px;
+            font-weight: 300;
             outline: none;
             border: none;
             &:focus, &:active {
@@ -358,6 +359,7 @@
         }
         label {
             font-size: 16px;
+            font-weight: 300;
         }
     }
 
@@ -368,12 +370,18 @@
         margin-top: 30px;
         .send {
             width: 240px;
+            position: relative;
             height: 60px;
             text-align: center;
             line-height: 60px;
             border-radius: 30px;
             font-size: 20px;
             font-weight: bold;
+            transition: all .3s ease-out;
+            &:hover {
+                transform: translateY(6px);
+                box-shadow: none !important;
+            }
         }
         .go-back {
             margin-top: 30px;
