@@ -1968,17 +1968,58 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      inputSum: 0,
-      isVisible: false
+      inputSum: 1000,
+      percentCommission: 0.045,
+      isVisible: false,
+      price: 0,
+      firstCur: 'eur',
+      secondCur: 'btc'
     };
   },
   mounted: function mounted() {
     console.log('Component exchange mounted.');
+    this.firstCur = document.getElementById('currency').value;
+    this.secondCur = document.getElementById('crypto').value;
+    this.rateExchange(this.firstCur, this.secondCur);
+  },
+  computed: {
+    commission: function commission() {
+      return this.inputSum <= 0 || this.inputSum === '' ? 0 : (parseFloat(this.inputSum) * this.percentCommission).toFixed(2);
+    },
+    weSendSum: function weSendSum() {
+      return this.inputSum <= 0 || this.inputSum === '' ? 0 : (parseFloat(this.inputSum) - parseFloat(this.commission)).toFixed(2);
+    },
+    getFinalSum: function getFinalSum() {
+      return this.weSendSum * this.price;
+    }
   },
   methods: {
+    calcCommission: function calcCommission() {
+      this.commission = this.inputSum * 0.045;
+    },
+    rateExchange: function rateExchange(firstCur, secondCur) {
+      var _this = this;
+
+      var url = "https://api.cryptonator.com/api/full/".concat(firstCur, "-").concat(secondCur);
+      fetch(url).then(function (response) {
+        return response.json();
+      }).then(function (json) {
+        _this.price = json.ticker.price;
+      });
+    },
+    changeCurrency: function changeCurrency(event) {
+      this.firstCur = event.target.value;
+      this.rateExchange(this.firstCur, this.secondCur);
+    },
+    changeCrypto: function changeCrypto(event) {
+      this.secondCur = event.target.value;
+      this.rateExchange(this.firstCur, this.secondCur);
+    },
     showExchangeForm: function showExchangeForm(event) {
       event.target.style.display = 'none';
       this.toggleVisible();
@@ -38274,12 +38315,7 @@ var render = function() {
                     expression: "inputSum"
                   }
                 ],
-                attrs: {
-                  type: "text",
-                  name: "withdrawal",
-                  id: "withdrawal",
-                  placeholder: ""
-                },
+                attrs: { type: "text", name: "withdrawal", id: "withdrawal" },
                 domProps: { value: _vm.inputSum },
                 on: {
                   input: function($event) {
@@ -38292,15 +38328,115 @@ var render = function() {
               })
             ]),
             _vm._v(" "),
-            _vm._m(0),
+            _c("div", { staticClass: "currency-change" }, [
+              _c("label", { attrs: { for: "currency" } }, [_vm._v("Валюта")]),
+              _vm._v(" "),
+              _c("div", { staticClass: "currency" }, [
+                _c(
+                  "select",
+                  {
+                    attrs: { name: "currency", id: "currency" },
+                    on: {
+                      change: function($event) {
+                        return _vm.changeCurrency($event)
+                      }
+                    }
+                  },
+                  [
+                    _c("option", { attrs: { value: "eur" } }, [_vm._v("EUR")]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "usd" } }, [_vm._v("USD")]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "gbp" } }, [_vm._v("GBP")]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "btc" } }, [_vm._v("BTC")])
+                  ]
+                )
+              ])
+            ]),
             _vm._v(" "),
-            _vm._m(1)
+            _c("div", { staticClass: "our-comission" }, [
+              _c("label", { attrs: { for: "comission" } }, [
+                _vm._v("Наша комиссия")
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                attrs: {
+                  type: "text",
+                  name: "comission",
+                  id: "comission",
+                  disabled: ""
+                },
+                domProps: { value: _vm.commission }
+              })
+            ])
           ]),
           _vm._v(" "),
-          _vm._m(2)
+          _c("div", { staticClass: "bottom-exchange" }, [
+            _c("div", { staticClass: "we-send" }, [
+              _c("label", { attrs: { for: "we-send-sum" } }, [
+                _vm._v("Мы отправляем")
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                attrs: {
+                  type: "text",
+                  name: "we-send-sum",
+                  id: "we-send-sum",
+                  disabled: ""
+                },
+                domProps: { value: _vm.weSendSum }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "currency-change" }, [
+              _c("label", { attrs: { for: "crypto" } }, [
+                _vm._v("Криптовалюта")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "currency" }, [
+                _c(
+                  "select",
+                  {
+                    attrs: { name: "crypto", id: "crypto" },
+                    on: {
+                      change: function($event) {
+                        return _vm.changeCrypto($event)
+                      }
+                    }
+                  },
+                  [
+                    _c("option", { attrs: { value: "btc" } }, [_vm._v("BTC")]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "eur" } }, [_vm._v("EUR")]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "usd" } }, [_vm._v("USD")]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "gbp" } }, [_vm._v("GBP")])
+                  ]
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "you-get" }, [
+              _c("label", { attrs: { for: "you-get-sum" } }, [
+                _vm._v("Вы получаете")
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                attrs: {
+                  type: "text",
+                  name: "you-get-sum",
+                  id: "you-get-sum",
+                  disabled: ""
+                },
+                domProps: { value: _vm.getFinalSum }
+              })
+            ])
+          ])
         ]),
         _vm._v(" "),
-        _vm._m(3)
+        _vm._m(0)
       ]
     ),
     _vm._v(" "),
@@ -38314,92 +38450,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "currency-change" }, [
-      _c("label", { attrs: { for: "currency" } }, [_vm._v("Валюта")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "currency" }, [
-        _c("select", { attrs: { name: "currency", id: "currency" } }, [
-          _c("option", { attrs: { value: "eur" } }, [_vm._v("EUR")]),
-          _vm._v(" "),
-          _c("option", { attrs: { value: "usd" } }, [_vm._v("USD")]),
-          _vm._v(" "),
-          _c("option", { attrs: { value: "gbp" } }, [_vm._v("GBP")]),
-          _vm._v(" "),
-          _c("option", { attrs: { value: "btc" } }, [_vm._v("BTC")])
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "our-comission" }, [
-      _c("label", { attrs: { for: "comission" } }, [_vm._v("Наша комиссия")]),
-      _vm._v(" "),
-      _c("input", {
-        attrs: {
-          type: "text",
-          name: "comission",
-          id: "comission",
-          placeholder: "E45.00",
-          disabled: ""
-        }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "bottom-exchange" }, [
-      _c("div", { staticClass: "we-send" }, [
-        _c("label", { attrs: { for: "we-send-sum" } }, [
-          _vm._v("Мы отправляем")
-        ]),
-        _vm._v(" "),
-        _c("input", {
-          attrs: {
-            type: "text",
-            name: "we-send-sum",
-            id: "we-send-sum",
-            placeholder: "E955.00"
-          }
-        })
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "currency-change" }, [
-        _c("label", { attrs: { for: "crypto" } }, [_vm._v("Криптовалюта")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "currency" }, [
-          _c("select", { attrs: { name: "crypto", id: "crypto" } }, [
-            _c("option", { attrs: { value: "btc" } }, [_vm._v("BTC")]),
-            _vm._v(" "),
-            _c("option", { attrs: { value: "eur" } }, [_vm._v("EUR")])
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "you-get" }, [
-        _c("label", { attrs: { for: "you-get-sum" } }, [
-          _vm._v("Вы получаете")
-        ]),
-        _vm._v(" "),
-        _c("input", {
-          attrs: {
-            type: "text",
-            name: "you-get-sum",
-            id: "you-get-sum",
-            placeholder: "0,069 BTC"
-          }
-        })
-      ])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

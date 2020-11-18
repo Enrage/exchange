@@ -7,12 +7,12 @@
                 <div class="top-exchange">
                     <div class="withdrawal-sum">
                         <label for="withdrawal">Сумма к выводу</label>
-                        <input type="text" name="withdrawal" id="withdrawal" placeholder="" v-model="inputSum">
+                        <input type="text" name="withdrawal" id="withdrawal" v-model="inputSum">
                     </div>
                     <div class="currency-change">
                         <label for="currency">Валюта</label>
                         <div class="currency">
-                            <select name="currency" id="currency">
+                            <select name="currency" id="currency" @change="changeCurrency($event)">
                                 <option value="eur">EUR</option>
                                 <option value="usd">USD</option>
                                 <option value="gbp">GBP</option>
@@ -22,27 +22,29 @@
                     </div>
                     <div class="our-comission">
                         <label for="comission">Наша комиссия</label>
-                        <input type="text" name="comission" id="comission" placeholder="E45.00" disabled>
+                        <input type="text" name="comission" id="comission" v-bind:value="commission" disabled>
                     </div>
                 </div>
 
                 <div class="bottom-exchange">
                     <div class="we-send">
                         <label for="we-send-sum">Мы отправляем</label>
-                        <input type="text" name="we-send-sum" id="we-send-sum" placeholder="E955.00">
+                        <input type="text" name="we-send-sum" id="we-send-sum" v-bind:value="weSendSum" disabled>
                     </div>
                     <div class="currency-change">
                         <label for="crypto">Криптовалюта</label>
                         <div class="currency">
-                            <select name="crypto" id="crypto">
+                            <select name="crypto" id="crypto" @change="changeCrypto($event)">
                                 <option value="btc">BTC</option>
                                 <option value="eur">EUR</option>
+                                <option value="usd">USD</option>
+                                <option value="gbp">GBP</option>
                             </select>
                         </div>
                     </div>
                     <div class="you-get">
                         <label for="you-get-sum">Вы получаете</label>
-                        <input type="text" name="you-get-sum" id="you-get-sum" placeholder="0,069 BTC">
+                        <input type="text" name="you-get-sum" id="you-get-sum" v-bind:value="getFinalSum" disabled>
                     </div>
                 </div>
             </form>
@@ -62,14 +64,58 @@
     export default {
         data() {
             return {
-                inputSum: 0,
-                isVisible: false
+                inputSum: 1000,
+                percentCommission: 0.045,
+                isVisible: false,
+                price: 0,
+                firstCur: 'eur',
+                secondCur: 'btc'
             }
         },
         mounted() {
             console.log('Component exchange mounted.');
+            this.firstCur = document.getElementById('currency').value;
+            this.secondCur = document.getElementById('crypto').value;
+            this.rateExchange(this.firstCur, this.secondCur);
         },
+        computed: {
+            commission() {
+                return (this.inputSum <= 0 || this.inputSum === '') ? 0 : (parseFloat(this.inputSum) * this.percentCommission).toFixed(2);
+            },
+
+            weSendSum() {
+                return (this.inputSum <= 0 || this.inputSum === '') ? 0 : (parseFloat(this.inputSum) - parseFloat(this.commission)).toFixed(2);
+            },
+
+            getFinalSum() {
+                return this.weSendSum * this.price;
+            }
+        },
+
         methods: {
+            calcCommission() {
+                this.commission = this.inputSum * 0.045;
+            },
+
+            rateExchange(firstCur, secondCur) {
+                let url = `https://api.cryptonator.com/api/full/${firstCur}-${secondCur}`;
+                fetch(url)
+                .then(response => response.json())
+                .then(json => {
+                    this.price = json.ticker.price;
+                });
+            },
+
+            changeCurrency(event) {
+                this.firstCur = event.target.value;
+                this.rateExchange(this.firstCur, this.secondCur);
+            },
+
+            changeCrypto(event) {
+                this.secondCur = event.target.value;
+                this.rateExchange(this.firstCur, this.secondCur);
+            },
+
             showExchangeForm(event) {
                 event.target.style.display = 'none';
                 this.toggleVisible();
