@@ -5,6 +5,7 @@
     <title>@yield('title')</title>
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
   </head>
   <body>
     <main>

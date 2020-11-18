@@ -1962,16 +1962,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {};
+    return {
+      inputSum: 0,
+      isVisible: false
+    };
   },
   mounted: function mounted() {
     console.log('Component exchange mounted.');
   },
   methods: {
-    showExchangeForm: function showExchangeForm() {
-      console.log('form show');
+    showExchangeForm: function showExchangeForm(event) {
+      event.target.style.display = 'none';
+      this.toggleVisible();
+    },
+    toggleVisible: function toggleVisible() {
+      this.isVisible = !this.isVisible;
     },
     toggleTimeMode: function toggleTimeMode() {
       var changeModeBtn = document.getElementById('change-time-mode');
@@ -6429,7 +6442,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "#wrapper {\n  position: relative;\n}\n#wrapper.dark {\n  background: #242432;\n}\n#wrapper.dark .press-me-btn {\n  background: #31313e;\n  color: #f0f0ff;\n  box-shadow: 0 24px 30px rgba(0, 0, 0, 0.15);\n}\n.press-me-btn {\n  height: 120px;\n  width: 430px;\n  font-size: 40px;\n  font-weight: bold;\n  border: none;\n  border-radius: 15px;\n  position: absolute;\n  top: 50%;\n  margin-top: -60px;\n  left: 50%;\n  margin-left: -215px;\n}\n.exchange-block {\n  display: none;\n}\n.time-mode-btn {\n  position: absolute;\n  bottom: 7%;\n  left: 50%;\n  margin-left: -50px;\n  width: 100px;\n  height: 52px;\n}\n.time-mode-btn #change-time-mode {\n  height: 100%;\n  width: 100%;\n  border: none;\n}\n.time-mode-btn #change-time-mode:focus, .time-mode-btn #change-time-mode:active {\n  border: none;\n  outline: none;\n}\n.time-mode-btn #change-time-mode.dark-mode {\n  background: url(\"/img/night.svg\") no-repeat;\n}\n.time-mode-btn #change-time-mode.light-mode {\n  background: url(\"/img/daynight.svg\") no-repeat;\n}", ""]);
+exports.push([module.i, "#wrapper {\n  position: relative;\n}\n#wrapper.dark {\n  background: #242432;\n}\n#wrapper.dark .press-me-btn {\n  background: #31313e;\n  color: #f0f0ff;\n  box-shadow: 0 24px 30px rgba(0, 0, 0, 0.15);\n}\n.exchange-component {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.press-me-btn {\n  height: 120px;\n  width: 430px;\n  font-size: 40px;\n  font-weight: bold;\n  border: none;\n  border-radius: 15px;\n}\n.press-me-btn:focus, .press-me-btn:active {\n  outline: none;\n  border: none;\n}\n#exchange-form {\n  width: 720px;\n  height: 277px;\n  background: #31313e;\n  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);\n  border-radius: 15px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n}\n#exchange-form .top-exchange {\n  display: flex;\n  justify-content: space-between;\n}\n#exchange-form .top-exchange > div {\n  display: flex;\n  flex-direction: column;\n  margin: 12px 14px;\n}\n#exchange-form .top-exchange > div.withdrawal-sum, #exchange-form .top-exchange > div.our-comission {\n  width: 224px;\n}\n#exchange-form .top-exchange > div.currency-change {\n  width: 112px;\n}\n#exchange-form .bottom-exchange {\n  display: flex;\n  justify-content: space-between;\n}\n#exchange-form .bottom-exchange > div {\n  display: flex;\n  flex-direction: column;\n  margin: 12px 14px;\n}\n#exchange-form .bottom-exchange > div.we-send, #exchange-form .bottom-exchange > div.you-get {\n  width: 224px;\n}\n#exchange-form .bottom-exchange > div.currency-change {\n  width: 112px;\n}\n#exchange-form input, #exchange-form select, #exchange-form option {\n  background: #3b3b49;\n  color: #fba700;\n  text-align: center;\n  border-radius: 15px;\n  font-size: 16px;\n  outline: none;\n  border: none;\n}\n#exchange-form input:focus, #exchange-form input:active, #exchange-form select:focus, #exchange-form select:active, #exchange-form option:focus, #exchange-form option:active {\n  outline: none;\n  border: none;\n}\n#exchange-form input {\n  height: 58px;\n  width: 224px;\n}\n#exchange-form select, #exchange-form option {\n  width: 112px;\n  height: 58px;\n}\n#exchange-form select {\n  -webkit-appearance: none;\n     -moz-appearance: none;\n          appearance: none;\n  padding: 0 25px;\n  position: relative;\n  z-index: 10;\n}\n#exchange-form .currency {\n  position: relative;\n}\n#exchange-form .currency::before {\n  content: \"\";\n  position: absolute;\n  display: block;\n  right: 28px;\n  top: 28px;\n  width: 12px;\n  height: 2px;\n  background: #fba700;\n  transform: rotate(44deg);\n  z-index: 20;\n}\n#exchange-form .currency::after {\n  content: \"\";\n  position: absolute;\n  display: block;\n  right: 20px;\n  width: 12px;\n  top: 28px;\n  height: 2px;\n  background: #fba700;\n  transform: rotate(-44deg);\n  z-index: 20;\n}\n#exchange-form label {\n  font-size: 16px;\n  color: #f0f0ff;\n}\n.ctrl-btns {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  margin-top: 30px;\n}\n.ctrl-btns .send {\n  width: 240px;\n  height: 60px;\n  text-align: center;\n  line-height: 60px;\n  background: #fba700;\n  color: #fff;\n  border-radius: 30px;\n  font-size: 20px;\n  font-weight: bold;\n  box-shadow: 0 15px 15px rgba(0, 0, 0, 0.2);\n}\n.ctrl-btns .go-back {\n  margin-top: 30px;\n  font-size: 24px;\n  font-weight: 300;\n  color: #fba700;\n}\n.ctrl-btns .go-back:hover {\n  text-decoration: none;\n}\n.time-mode-btn {\n  position: absolute;\n  bottom: 7%;\n  left: 50%;\n  margin-left: -50px;\n  width: 100px;\n  height: 52px;\n}\n.time-mode-btn #change-time-mode {\n  height: 100%;\n  width: 100%;\n  border: none;\n}\n.time-mode-btn #change-time-mode:focus, .time-mode-btn #change-time-mode:active {\n  border: none;\n  outline: none;\n}\n.time-mode-btn #change-time-mode.dark-mode {\n  background: url(\"/img/night.svg\") no-repeat;\n}\n.time-mode-btn #change-time-mode.light-mode {\n  background: url(\"/img/daynight.svg\") no-repeat;\n}", ""]);
 
 // exports
 
@@ -38231,7 +38244,65 @@ var render = function() {
       [_vm._v("Press me")]
     ),
     _vm._v(" "),
-    _vm._m(0),
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.isVisible,
+            expression: "isVisible"
+          }
+        ],
+        staticClass: "exchange-block"
+      },
+      [
+        _c("form", { attrs: { action: "/", id: "exchange-form" } }, [
+          _c("div", { staticClass: "top-exchange" }, [
+            _c("div", { staticClass: "withdrawal-sum" }, [
+              _c("label", { attrs: { for: "withdrawal" } }, [
+                _vm._v("Сумма к выводу")
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.inputSum,
+                    expression: "inputSum"
+                  }
+                ],
+                attrs: {
+                  type: "text",
+                  name: "withdrawal",
+                  id: "withdrawal",
+                  placeholder: ""
+                },
+                domProps: { value: _vm.inputSum },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.inputSum = $event.target.value
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _vm._m(0),
+            _vm._v(" "),
+            _vm._m(1)
+          ]),
+          _vm._v(" "),
+          _vm._m(2)
+        ]),
+        _vm._v(" "),
+        _vm._m(3)
+      ]
+    ),
     _vm._v(" "),
     _c("div", { staticClass: "time-mode-btn" }, [
       _c("button", {
@@ -38247,80 +38318,98 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "exchange-block" }, [
-      _c("form", { attrs: { action: "/", id: "exchange-form" } }, [
-        _c("div", { staticClass: "top-exchange" }, [
-          _c("div", { staticClass: "withdrawal-sum" }, [
-            _c("label", { attrs: { for: "withdrawal" } }, [
-              _vm._v("Сумма к выводу")
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              attrs: { type: "text", name: "withdrawal", id: "withdrawal" }
-            })
-          ]),
+    return _c("div", { staticClass: "currency-change" }, [
+      _c("label", { attrs: { for: "currency" } }, [_vm._v("Валюта")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "currency" }, [
+        _c("select", { attrs: { name: "currency", id: "currency" } }, [
+          _c("option", { attrs: { value: "eur" } }, [_vm._v("EUR")]),
           _vm._v(" "),
-          _c("div", { staticClass: "currency-change" }, [
-            _c("label", { attrs: { for: "currency" } }, [_vm._v("Валюта")]),
-            _vm._v(" "),
-            _c("select", { attrs: { name: "currency", id: "currency" } }, [
-              _c("option", { attrs: { value: "eur" } }, [_vm._v("EUR")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "usd" } }, [_vm._v("USD")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "gbp" } }, [_vm._v("GBP")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "btc" } }, [_vm._v("BTC")])
-            ])
-          ]),
+          _c("option", { attrs: { value: "usd" } }, [_vm._v("USD")]),
           _vm._v(" "),
-          _c("div", { staticClass: "our-comission" }, [
-            _c("label", { attrs: { for: "comission" } }, [
-              _vm._v("Наша комиссия")
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              attrs: { type: "text", name: "comission", id: "comission" }
-            })
-          ])
+          _c("option", { attrs: { value: "gbp" } }, [_vm._v("GBP")]),
+          _vm._v(" "),
+          _c("option", { attrs: { value: "btc" } }, [_vm._v("BTC")])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "our-comission" }, [
+      _c("label", { attrs: { for: "comission" } }, [_vm._v("Наша комиссия")]),
+      _vm._v(" "),
+      _c("input", {
+        attrs: {
+          type: "text",
+          name: "comission",
+          id: "comission",
+          placeholder: "E45.00",
+          disabled: ""
+        }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "bottom-exchange" }, [
+      _c("div", { staticClass: "we-send" }, [
+        _c("label", { attrs: { for: "we-send-sum" } }, [
+          _vm._v("Мы отправляем")
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "bottom-exchange" }, [
-          _c("div", { staticClass: "we-send" }, [
-            _c("label", { attrs: { for: "we-send-sum" } }, [
-              _vm._v("Мы отправляем")
-            ]),
+        _c("input", {
+          attrs: {
+            type: "text",
+            name: "we-send-sum",
+            id: "we-send-sum",
+            placeholder: "E955.00"
+          }
+        })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "currency-change" }, [
+        _c("label", { attrs: { for: "crypto" } }, [_vm._v("Криптовалюта")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "currency" }, [
+          _c("select", { attrs: { name: "crypto", id: "crypto" } }, [
+            _c("option", { attrs: { value: "btc" } }, [_vm._v("BTC")]),
             _vm._v(" "),
-            _c("input", {
-              attrs: { type: "text", name: "we-send-sum", id: "we-send-sum" }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "currency-change" }, [
-            _c("label", { attrs: { for: "crypto" } }, [_vm._v("Криптовалюта")]),
-            _vm._v(" "),
-            _c("select", { attrs: { name: "crypto", id: "crypto" } }, [
-              _c("option", { attrs: { value: "btc" } }, [_vm._v("BTC")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "eur" } }, [_vm._v("EUR")])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "you-get" }, [
-            _c("label", { attrs: { for: "you-get-sum" } }, [
-              _vm._v("Вы получаете")
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              attrs: { type: "text", name: "you-get-sum", id: "you-get-sum" }
-            })
+            _c("option", { attrs: { value: "eur" } }, [_vm._v("EUR")])
           ])
         ])
       ]),
       _vm._v(" "),
-      _c("button", [_vm._v("Press me")]),
+      _c("div", { staticClass: "you-get" }, [
+        _c("label", { attrs: { for: "you-get-sum" } }, [
+          _vm._v("Вы получаете")
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          attrs: {
+            type: "text",
+            name: "you-get-sum",
+            id: "you-get-sum",
+            placeholder: "0,069 BTC"
+          }
+        })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "ctrl-btns" }, [
+      _c("button", { staticClass: "send" }, [_vm._v("Press me")]),
       _vm._v(" "),
-      _c("a", { attrs: { href: "/" } }, [_vm._v("Go back")])
+      _c("a", { staticClass: "go-back", attrs: { href: "/" } }, [
+        _vm._v("Go back")
+      ])
     ])
   }
 ]

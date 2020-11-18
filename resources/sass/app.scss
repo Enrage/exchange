@@ -2,6 +2,10 @@
 @import 'variables';
 @import '~bootstrap/scss/bootstrap';
 
+* {
+  border: none;
+  outline: none;
+}
 body {
   height: 100vh;
   width: 100vw;
@@ -37,4 +41,9 @@ main {
     background: #fba700;
     text-decoration: none;
   }
+}
+
+#app {
+  width: 100%;
+  height: 100%;
 }

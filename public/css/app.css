@@ -10901,6 +10901,11 @@ a.text-dark:focus {
   }
 }
 
+* {
+  border: none;
+  outline: none;
+}
+
 body {
   height: 100vh;
   width: 100vw;
@@ -10937,5 +10942,10 @@ main {
   color: #f0f0ff;
   background: #fba700;
   text-decoration: none;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
 }
 
