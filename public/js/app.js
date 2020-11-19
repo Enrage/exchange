@@ -1978,24 +1978,25 @@ __webpack_require__.r(__webpack_exports__);
       isVisible: false,
       price: 0,
       firstCur: 'eur',
-      secondCur: 'btc'
+      secondCur: 'btc',
+      firstSymbol: '€',
+      secondSymbol: '₿'
     };
   },
   mounted: function mounted() {
-    console.log('Component exchange mounted.');
     this.firstCur = document.getElementById('currency').value;
     this.secondCur = document.getElementById('crypto').value;
     this.rateExchange(this.firstCur, this.secondCur);
   },
   computed: {
     commission: function commission() {
-      return this.inputSum <= 0 || this.inputSum === '' ? 0 : (parseFloat(this.inputSum) * this.percentCommission).toFixed(2);
+      return this.inputSum <= 0 || this.inputSum === '' ? 0 : this.firstSymbol + ' ' + (this.inputSum * this.percentCommission).toFixed(2);
     },
     weSendSum: function weSendSum() {
-      return this.inputSum <= 0 || this.inputSum === '' ? 0 : (parseFloat(this.inputSum) - parseFloat(this.commission)).toFixed(2);
+      return this.inputSum <= 0 || this.inputSum === '' ? 0 : this.firstSymbol + ' ' + (this.inputSum - parseFloat(this.commission.substr(2))).toFixed(2);
     },
     getFinalSum: function getFinalSum() {
-      return (this.weSendSum * this.price).toFixed(2);
+      return this.secondSymbol + ' ' + (parseFloat(this.weSendSum.substr(2)) * this.price).toFixed(2);
     }
   },
   methods: {
@@ -2012,8 +2013,36 @@ __webpack_require__.r(__webpack_exports__);
         _this.price = json.ticker.price;
       });
     },
+    currencySymbol: function currencySymbol(currency) {
+      var symbol;
+
+      switch (currency) {
+        case 'eur':
+          symbol = '€';
+          break;
+
+        case 'usd':
+          symbol = '$';
+          break;
+
+        case 'gbp':
+          symbol = '£';
+          break;
+
+        case 'btc':
+          symbol = '₿';
+          break;
+
+        default:
+          symbol = '';
+          break;
+      }
+
+      return symbol;
+    },
     changeCurrency: function changeCurrency(event) {
       this.firstCur = event.target.value;
+      this.firstSymbol = this.currencySymbol(this.firstCur);
 
       if (this.firstCur !== this.secondCur) {
         this.rateExchange(this.firstCur, this.secondCur);
@@ -2021,14 +2050,19 @@ __webpack_require__.r(__webpack_exports__);
     },
     changeCrypto: function changeCrypto(event) {
       this.secondCur = event.target.value;
+      this.secondSymbol = this.currencySymbol(this.secondCur);
 
       if (this.secondCur !== this.firstCur) {
         this.rateExchange(this.firstCur, this.secondCur);
       } else this.price = 1;
     },
-    showExchangeForm: function showExchangeForm(event) {
-      event.target.style.display = 'none';
-      this.toggleVisible();
+    showForm: function showForm(event) {
+      event.target.classList.add('animate-hide');
+      setTimeout(function () {
+        event.target.style.display = 'none';
+        event.target.nextElementSibling.classList.add('animate-show');
+        event.target.nextElementSibling.style.display = 'block';
+      }, 800);
     },
     toggleVisible: function toggleVisible() {
       this.isVisible = !this.isVisible;
@@ -6497,7 +6531,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "#wrapper {\n  position: relative;\n}\n#wrapper.dark {\n  background: #242432;\n}\n#wrapper.dark .press-me-btn {\n  background: #31313e;\n  color: #f0f0ff;\n  box-shadow: 0 24px 30px rgba(0, 0, 0, 0.15);\n}\n#wrapper.dark #exchange-form {\n  background: #31313e;\n  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);\n}\n#wrapper.dark input, #wrapper.dark select, #wrapper.dark option {\n  background: #3b3b49;\n  color: #fba700;\n}\n#wrapper.dark .currency::before {\n  background: #fba700;\n}\n#wrapper.dark .currency::after {\n  background: #fba700;\n}\n#wrapper.dark label {\n  color: #f0f0ff;\n}\n#wrapper.dark .ctrl-btns .send {\n  background: #fba700;\n  color: #fff;\n  box-shadow: 0 15px 15px rgba(9, 9, 25, 0.2);\n}\n#wrapper.dark .ctrl-btns .go-back {\n  color: #fba700;\n}\n#wrapper.light {\n  background: #f0f0ff;\n}\n#wrapper.light .press-me-btn {\n  background: #fff;\n  color: #000;\n  box-shadow: 0 24px 30px rgba(9, 9, 25, 0.05);\n}\n#wrapper.light #exchange-form {\n  background: #fff;\n  box-shadow: 0 15px 30px rgba(9, 9, 25, 0.05);\n}\n#wrapper.light input, #wrapper.light select, #wrapper.light option {\n  background: #f5f5ff;\n  color: #2929cc;\n}\n#wrapper.light .currency::before {\n  background: #2929cc;\n}\n#wrapper.light .currency::after {\n  background: #2929cc;\n}\n#wrapper.light label {\n  color: #000;\n}\n#wrapper.light .ctrl-btns .send {\n  background: #2929cc;\n  color: #fff;\n  box-shadow: 0 15px 15px rgba(9, 9, 25, 0.2);\n}\n#wrapper.light .ctrl-btns .go-back {\n  color: #2929cc;\n}\n.exchange-component {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.press-me-btn {\n  height: 120px;\n  width: 430px;\n  font-size: 40px;\n  font-weight: bold;\n  border: none;\n  border-radius: 15px;\n}\n.press-me-btn:focus, .press-me-btn:active {\n  outline: none;\n  border: none;\n}\n#exchange-form {\n  width: 720px;\n  height: 277px;\n  border-radius: 15px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n}\n#exchange-form .top-exchange {\n  display: flex;\n  justify-content: space-between;\n}\n#exchange-form .top-exchange > div {\n  display: flex;\n  flex-direction: column;\n  margin: 12px 14px;\n}\n#exchange-form .top-exchange > div.withdrawal-sum, #exchange-form .top-exchange > div.our-comission {\n  width: 224px;\n}\n#exchange-form .top-exchange > div.currency-change {\n  width: 112px;\n}\n#exchange-form .bottom-exchange {\n  display: flex;\n  justify-content: space-between;\n}\n#exchange-form .bottom-exchange > div {\n  display: flex;\n  flex-direction: column;\n  margin: 12px 14px;\n}\n#exchange-form .bottom-exchange > div.we-send, #exchange-form .bottom-exchange > div.you-get {\n  width: 224px;\n}\n#exchange-form .bottom-exchange > div.currency-change {\n  width: 112px;\n}\n#exchange-form input, #exchange-form select, #exchange-form option {\n  text-align: center;\n  border-radius: 15px;\n  font-size: 16px;\n  font-weight: 300;\n  outline: none;\n  border: none;\n}\n#exchange-form input:focus, #exchange-form input:active, #exchange-form select:focus, #exchange-form select:active, #exchange-form option:focus, #exchange-form option:active {\n  outline: none;\n  border: none;\n}\n#exchange-form input {\n  height: 58px;\n  width: 224px;\n}\n#exchange-form select, #exchange-form option {\n  width: 112px;\n  height: 58px;\n}\n#exchange-form select {\n  -webkit-appearance: none;\n     -moz-appearance: none;\n          appearance: none;\n  padding: 0 25px;\n  position: relative;\n  z-index: 10;\n}\n#exchange-form .currency {\n  position: relative;\n}\n#exchange-form .currency::before {\n  content: \"\";\n  position: absolute;\n  display: block;\n  right: 28px;\n  top: 28px;\n  width: 12px;\n  height: 2px;\n  transform: rotate(44deg);\n  z-index: 20;\n}\n#exchange-form .currency::after {\n  content: \"\";\n  position: absolute;\n  display: block;\n  right: 20px;\n  width: 12px;\n  top: 28px;\n  height: 2px;\n  transform: rotate(-44deg);\n  z-index: 20;\n}\n#exchange-form label {\n  font-size: 16px;\n  font-weight: 300;\n}\n.ctrl-btns {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  margin-top: 30px;\n}\n.ctrl-btns .send {\n  width: 240px;\n  position: relative;\n  height: 60px;\n  text-align: center;\n  line-height: 60px;\n  border-radius: 30px;\n  font-size: 20px;\n  font-weight: bold;\n  transition: all 0.3s ease-out;\n}\n.ctrl-btns .send:hover {\n  transform: translateY(6px);\n  box-shadow: none !important;\n}\n.ctrl-btns .go-back {\n  margin-top: 30px;\n  font-size: 24px;\n  font-weight: 300;\n  color: #fba700;\n}\n.ctrl-btns .go-back:hover {\n  text-decoration: none;\n}\n.time-mode-btn {\n  position: absolute;\n  bottom: 7%;\n  left: 50%;\n  margin-left: -50px;\n  width: 100px;\n  height: 52px;\n}\n.time-mode-btn #change-time-mode {\n  height: 100%;\n  width: 100%;\n  border: none;\n}\n.time-mode-btn #change-time-mode:focus, .time-mode-btn #change-time-mode:active {\n  border: none;\n  outline: none;\n}\n.time-mode-btn #change-time-mode.dark-mode {\n  background: url(\"/img/night.svg\") no-repeat;\n}\n.time-mode-btn #change-time-mode.light-mode {\n  background: url(\"/img/daynight.svg\") no-repeat;\n}", ""]);
+exports.push([module.i, "#wrapper {\n  position: relative;\n}\n#wrapper.dark {\n  background: #242432;\n}\n#wrapper.dark .press-me-btn {\n  background: #31313e;\n  color: #f0f0ff;\n  box-shadow: 0 24px 30px rgba(0, 0, 0, 0.15);\n}\n#wrapper.dark #exchange-form {\n  background: #31313e;\n  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);\n}\n#wrapper.dark input, #wrapper.dark select, #wrapper.dark option {\n  background: #3b3b49;\n  color: #fba700;\n}\n#wrapper.dark .currency::before {\n  background: #fba700;\n}\n#wrapper.dark .currency::after {\n  background: #fba700;\n}\n#wrapper.dark label {\n  color: #f0f0ff;\n}\n#wrapper.dark .ctrl-btns .send {\n  background: #fba700;\n  color: #fff;\n  box-shadow: 0 15px 15px rgba(9, 9, 25, 0.2);\n}\n#wrapper.dark .ctrl-btns .go-back {\n  color: #fba700;\n}\n#wrapper.light {\n  background: #f0f0ff;\n}\n#wrapper.light .press-me-btn {\n  background: #fff;\n  color: #000;\n  box-shadow: 0 24px 30px rgba(9, 9, 25, 0.05);\n}\n#wrapper.light #exchange-form {\n  background: #fff;\n  box-shadow: 0 15px 30px rgba(9, 9, 25, 0.05);\n}\n#wrapper.light input, #wrapper.light select, #wrapper.light option {\n  background: #f5f5ff;\n  color: #2929cc;\n}\n#wrapper.light .currency::before {\n  background: #2929cc;\n}\n#wrapper.light .currency::after {\n  background: #2929cc;\n}\n#wrapper.light label {\n  color: #000;\n}\n#wrapper.light .ctrl-btns .send {\n  background: #2929cc;\n  color: #fff;\n  box-shadow: 0 15px 15px rgba(9, 9, 25, 0.2);\n}\n#wrapper.light .ctrl-btns .go-back {\n  color: #2929cc;\n}\n.exchange-component {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.press-me-btn {\n  position: absolute;\n  top: 50%;\n  margin-top: -60px;\n  left: 50%;\n  margin-left: -215px;\n  height: 120px;\n  width: 430px;\n  font-size: 40px;\n  font-weight: bold;\n  border: none;\n  border-radius: 15px;\n}\n.press-me-btn:focus, .press-me-btn:active {\n  outline: none;\n  border: none;\n}\n#exchange-form {\n  width: 720px;\n  height: 277px;\n  border-radius: 15px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n}\n#exchange-form .top-exchange {\n  display: flex;\n  justify-content: space-between;\n}\n#exchange-form .top-exchange > div {\n  display: flex;\n  flex-direction: column;\n  margin: 12px 14px;\n}\n#exchange-form .top-exchange > div.withdrawal-sum, #exchange-form .top-exchange > div.our-comission {\n  width: 224px;\n}\n#exchange-form .top-exchange > div.currency-change {\n  width: 112px;\n}\n#exchange-form .bottom-exchange {\n  display: flex;\n  justify-content: space-between;\n}\n#exchange-form .bottom-exchange > div {\n  display: flex;\n  flex-direction: column;\n  margin: 12px 14px;\n}\n#exchange-form .bottom-exchange > div.we-send, #exchange-form .bottom-exchange > div.you-get {\n  width: 224px;\n}\n#exchange-form .bottom-exchange > div.currency-change {\n  width: 112px;\n}\n#exchange-form input, #exchange-form select, #exchange-form option {\n  text-align: center;\n  border-radius: 15px;\n  font-size: 16px;\n  font-weight: 300;\n  outline: none;\n  border: none;\n}\n#exchange-form input:focus, #exchange-form input:active, #exchange-form select:focus, #exchange-form select:active, #exchange-form option:focus, #exchange-form option:active {\n  outline: none;\n  border: none;\n}\n#exchange-form input {\n  height: 58px;\n  width: 224px;\n}\n#exchange-form select, #exchange-form option {\n  width: 112px;\n  height: 58px;\n}\n#exchange-form select {\n  -webkit-appearance: none;\n     -moz-appearance: none;\n          appearance: none;\n  padding: 0 25px;\n  position: relative;\n  z-index: 10;\n}\n#exchange-form .currency {\n  position: relative;\n}\n#exchange-form .currency::before {\n  content: \"\";\n  position: absolute;\n  display: block;\n  right: 28px;\n  top: 28px;\n  width: 12px;\n  height: 2px;\n  transform: rotate(44deg);\n  z-index: 20;\n}\n#exchange-form .currency::after {\n  content: \"\";\n  position: absolute;\n  display: block;\n  right: 20px;\n  width: 12px;\n  top: 28px;\n  height: 2px;\n  transform: rotate(-44deg);\n  z-index: 20;\n}\n#exchange-form label {\n  font-size: 16px;\n  font-weight: 300;\n}\n.ctrl-btns {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  margin-top: 30px;\n}\n.ctrl-btns .send {\n  width: 240px;\n  position: relative;\n  height: 60px;\n  text-align: center;\n  line-height: 60px;\n  border-radius: 30px;\n  font-size: 20px;\n  font-weight: bold;\n  transition: all 0.3s ease-out;\n}\n.ctrl-btns .send:hover {\n  transform: translateY(6px);\n  box-shadow: none !important;\n}\n.ctrl-btns .go-back {\n  margin-top: 30px;\n  font-size: 24px;\n  font-weight: 300;\n  color: #fba700;\n}\n.ctrl-btns .go-back:hover {\n  text-decoration: none;\n}\n.time-mode-btn {\n  position: absolute;\n  bottom: 7%;\n  left: 50%;\n  margin-left: -50px;\n  width: 100px;\n  height: 52px;\n}\n.time-mode-btn #change-time-mode {\n  height: 100%;\n  width: 100%;\n  border: none;\n}\n.time-mode-btn #change-time-mode:focus, .time-mode-btn #change-time-mode:active {\n  border: none;\n  outline: none;\n}\n.time-mode-btn #change-time-mode.dark-mode {\n  background: url(\"/img/night.svg\") no-repeat;\n}\n.time-mode-btn #change-time-mode.light-mode {\n  background: url(\"/img/daynight.svg\") no-repeat;\n}\n.animate-hide {\n  -webkit-animation: rotate-hide 0.8s linear;\n          animation: rotate-hide 0.8s linear;\n}\n.animate-show {\n  -webkit-animation: show 0.6s linear;\n          animation: show 0.6s linear;\n}\n@-webkit-keyframes rotate-hide {\n0% {\n    transform: rotate(0) scale(1);\n}\n25% {\n    transform: rotate(100deg) scale(0.75);\n}\n50% {\n    transform: rotate(200deg) scale(0.5);\n}\n75% {\n    transform: rotate(300deg) scale(0.25);\n}\n100% {\n    transform: rotate(400deg) scale(0);\n}\n}\n@keyframes rotate-hide {\n0% {\n    transform: rotate(0) scale(1);\n}\n25% {\n    transform: rotate(100deg) scale(0.75);\n}\n50% {\n    transform: rotate(200deg) scale(0.5);\n}\n75% {\n    transform: rotate(300deg) scale(0.25);\n}\n100% {\n    transform: rotate(400deg) scale(0);\n}\n}\n@-webkit-keyframes show {\n0% {\n    transform: scale(0);\n}\n50% {\n    transform: scale(0.5);\n}\n100% {\n    transform: scale(1);\n}\n}\n@keyframes show {\n0% {\n    transform: scale(0);\n}\n50% {\n    transform: scale(0.5);\n}\n100% {\n    transform: scale(1);\n}\n}", ""]);
 
 // exports
 
@@ -38293,11 +38327,9 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "exchange-component" }, [
-    _c(
-      "button",
-      { staticClass: "press-me-btn", on: { click: _vm.showExchangeForm } },
-      [_vm._v("Press me")]
-    ),
+    _c("button", { staticClass: "press-me-btn", on: { click: _vm.showForm } }, [
+      _vm._v("Press me")
+    ]),
     _vm._v(" "),
     _c(
       "div",

@@ -1,6 +1,6 @@
 <template>
     <div class="exchange-component">
-        <button class="press-me-btn" @click="showExchangeForm">Press me</button>
+        <button class="press-me-btn" @click="showForm">Press me</button>
 
         <div class="exchange-block" v-show="isVisible">
             <form action="/" id="exchange-form">
@@ -69,26 +69,28 @@
                 isVisible: false,
                 price: 0,
                 firstCur: 'eur',
-                secondCur: 'btc'
+                secondCur: 'btc',
+                firstSymbol: '€',
+                secondSymbol: '₿',
             }
         },
         mounted() {
-            console.log('Component exchange mounted.');
             this.firstCur = document.getElementById('currency').value;
             this.secondCur = document.getElementById('crypto').value;
             this.rateExchange(this.firstCur, this.secondCur);
         },
+
         computed: {
             commission() {
-                return (this.inputSum <= 0 || this.inputSum === '') ? 0 : (parseFloat(this.inputSum) * this.percentCommission).toFixed(2);
+                return (this.inputSum <= 0 || this.inputSum === '') ? 0 : this.firstSymbol + ' ' + (this.inputSum * this.percentCommission).toFixed(2);
             },
 
             weSendSum() {
-                return (this.inputSum <= 0 || this.inputSum === '') ? 0 : (parseFloat(this.inputSum) - parseFloat(this.commission)).toFixed(2);
+                return (this.inputSum <= 0 || this.inputSum === '') ? 0 : this.firstSymbol + ' ' + (this.inputSum - parseFloat(this.commission.substr(2))).toFixed(2);
             },
 
             getFinalSum() {
-                return (this.weSendSum * this.price).toFixed(2);
+                return this.secondSymbol + ' ' + (parseFloat(this.weSendSum.substr(2)) * this.price).toFixed(2);
             }
         },
 
@@ -106,8 +108,21 @@
                 });
             },
 
+            currencySymbol(currency) {
+                let symbol;
+                switch (currency) {
+                    case 'eur': symbol = '€'; break;
+                    case 'usd': symbol = '$'; break;
+                    case 'gbp': symbol = '£'; break;
+                    case 'btc': symbol = '₿'; break;
+                    default: symbol = ''; break;
+                }
+                return symbol;
+            },
+
             changeCurrency(event) {
                 this.firstCur = event.target.value;
+                this.firstSymbol = this.currencySymbol(this.firstCur);
                 if (this.firstCur !== this.secondCur) {
                     this.rateExchange(this.firstCur, this.secondCur);
                 } else this.price = 1;
@@ -115,14 +130,19 @@
 
             changeCrypto(event) {
                 this.secondCur = event.target.value;
+                this.secondSymbol = this.currencySymbol(this.secondCur);
                 if (this.secondCur !== this.firstCur) {
                     this.rateExchange(this.firstCur, this.secondCur);
                 } else this.price = 1;
             },
 
-            showExchangeForm(event) {
-                event.target.style.display = 'none';
-                this.toggleVisible();
+            showForm(event) {
+                event.target.classList.add('animate-hide');
+                setTimeout(() => {
+                    event.target.style.display = 'none';
+                    event.target.nextElementSibling.classList.add('animate-show');
+                    event.target.nextElementSibling.style.display = 'block';
+                }, 800);
             },
 
             toggleVisible() {
@@ -254,6 +274,11 @@
     }
 
     .press-me-btn {
+        position: absolute;
+        top: 50%;
+        margin-top: -60px;
+        left: 50%;
+        margin-left: -215px;
         height: 120px;
         width: 430px;
         font-size: 40px;
@@ -416,6 +441,43 @@
             &.light-mode {
                 background: url('/img/daynight.svg') no-repeat;
             }
+        }
+    }
+
+    .animate-hide {
+        animation: rotate-hide 0.8s linear;
+    }
+    .animate-show {
+        animation: show 0.6s linear;
+    }
+
+    @keyframes rotate-hide {
+        0% {
+            transform: rotate(0) scale(1);
+        }
+        25% {
+            transform: rotate(100deg) scale(.75);
+        }
+        50% {
+            transform: rotate(200deg) scale(.5);
+        }
+        75% {
+            transform: rotate(300deg) scale(.25);
+        }
+        100% {
+            transform: rotate(400deg) scale(0);
+        }
+    }
+
+    @keyframes show {
+        0% {
+            transform: scale(0);
+        }
+        50% {
+            transform: scale(.5);
+        }
+        100% {
+            transform: scale(1);
         }
     }
 </style>
