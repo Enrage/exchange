@@ -1,8 +1,9 @@
 <template>
     <div class="exchange-component">
-        <button class="press-me-btn" @click="showForm">Press me</button>
+        <button class="press-me-btn" @click="showForm"><div>Press me</div></button>
 
         <div class="exchange-block" v-show="isVisible">
+            <div class="animate-plane"></div>
             <form action="/" id="exchange-form">
                 <div class="top-exchange">
                     <div class="withdrawal-sum">
@@ -49,8 +50,8 @@
                 </div>
             </form>
             <div class="ctrl-btns">
-                <button class="send">Press me</button>
-                <a href="/" class="go-back">Go back</a>
+                <button class="send" @click="sendMoney">Press me</button>
+                <a href="/" class="go-back" @click="goBack">Go back</a>
             </div>
         </div>
 
@@ -137,11 +138,21 @@
             },
 
             showForm(event) {
-                event.target.classList.add('animate-hide');
+                const btn = document.querySelector('.press-me-btn');
+                const btnText = btn.children[0];
+                const form = document.querySelector('.exchange-block');
+                btnText.classList.add('animate-hide-rotate');
+                btn.classList.add('animate-width-reduce');
+                btn.classList.remove('animate-fast-show');
                 setTimeout(() => {
-                    event.target.style.display = 'none';
-                    event.target.nextElementSibling.classList.add('animate-show');
-                    event.target.nextElementSibling.style.display = 'block';
+                    btn.style.width = '120px';
+                    btn.style.borderRadius = '50%';
+                    btnText.style.display = 'none';
+                    btn.style.display = 'none';
+                    form.classList.add('animate-scale-show');
+                    form.style.display = 'block';
+                    document.getElementById('exchange-form').style.opacity = 1;
+                    document.getElementById('exchange-form').style.zIndex = 1;
                 }, 800);
             },
 
@@ -167,6 +178,68 @@
                     wrapper.classList.remove('light');
                     wrapper.classList.add('dark');
                 }
+            },
+
+            sendMoney() {
+                const animatePlane = document.querySelector('.animate-plane');
+                const form = document.getElementById('exchange-form');
+                const sendBtn = document.querySelector('.send');
+                const goBack = document.querySelector('.go-back');
+                form.classList.add('transparent', 'animate-scale-fade');
+
+                animatePlane.style.display = 'block';
+                animatePlane.classList.add('animate-compress');
+                setTimeout(() => {
+                    form.style.opacity = 0;
+                    form.style.zIndex = -1;
+                    animatePlane.classList.add('plane');
+                    animatePlane.classList.add('animate-plane-fly');
+                    setTimeout(() => {
+                        animatePlane.style.display = 'none';
+                        sendBtn.classList.add('animate-fade');
+                        goBack.classList.add('animate-transform');
+                        setTimeout(() => {
+                            sendBtn.style.opacity = 0;
+                            sendBtn.style.zIndex = -1;
+                        }, 900);
+                    }, 1300);
+                }, 700);
+
+                let finalSum = parseFloat(document.getElementById('you-get-sum').value.substr(2));
+                let currentCurrency = document.getElementById('crypto').value;
+                console.log(finalSum);
+                console.log(currentCurrency);
+            },
+
+            goBack(event) {
+                event.preventDefault();
+                const pressMeBtn = document.querySelector('.press-me-btn');
+                const exchangeBlock = document.querySelector('.exchange-block');
+                const animatePlane = document.querySelector('.animate-plane');
+                const form = document.getElementById('exchange-form');
+                const sendBtn = document.querySelector('.send');
+                const goBack = document.querySelector('.go-back');
+
+                pressMeBtn.classList.remove('animate-width-reduce');
+                exchangeBlock.classList.remove('animate-scale-show');
+                exchangeBlock.classList.add('animate-fast-fade');
+                animatePlane.classList.remove('animate-compress', 'plane', 'animate-plane-fly');
+                form.classList.remove('transparent', 'animate-scale-fade');
+                sendBtn.classList.remove('animate-fade');
+                goBack.classList.remove('animate-transform');
+
+                setTimeout(() => {
+                    exchangeBlock.style.display = 'none';
+                    exchangeBlock.classList.remove('animate-fast-fade');
+                    pressMeBtn.classList.add('animate-fast-show');
+                    pressMeBtn.style.display = 'block';
+                    pressMeBtn.style.width = '430px';
+                    pressMeBtn.style.borderRadius = '15px';
+                    pressMeBtn.children[0].style.display = 'block';
+                    pressMeBtn.children[0].classList.remove('animate-hide-rotate');
+                    sendBtn.style.opacity = 1;
+                    sendBtn.style.zIndex = 1;
+                }, 300);
             }
         }
     }
@@ -183,6 +256,15 @@
                 background: #31313e;
                 color: #f0f0ff;
                 box-shadow: 0 24px 30px rgba(0, 0, 0, 0.15);
+            }
+
+            .animate-plane {
+                background: #31313e;
+                box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            }
+
+            .plane {
+                background: url('/img/plane_d.svg') no-repeat !important;
             }
 
             #exchange-form {
@@ -227,6 +309,15 @@
                 background: #fff;
                 color: #000;
                 box-shadow: 0 24px 30px rgba(9, 9, 25, 0.05);
+            }
+
+            .animate-plane {
+                background: #fff;
+                box-shadow: 0 15px 30px rgba(9, 9, 25, 0.05);
+            }
+
+            .plane {
+                background: url('/img/plane_l.svg') no-repeat !important;
             }
 
             #exchange-form {
@@ -274,21 +365,41 @@
     }
 
     .press-me-btn {
-        position: absolute;
-        top: 50%;
-        margin-top: -60px;
-        left: 50%;
-        margin-left: -215px;
         height: 120px;
         width: 430px;
         font-size: 40px;
         font-weight: bold;
         border: none;
         border-radius: 15px;
+        > span {
+            width: 100%;
+            height: 100%;
+        }
         &:focus, &:active {
             outline: none;
             border: none;
         }
+    }
+
+    .animate-plane {
+        width: 720px;
+        height: 278px;
+        position: absolute;
+        left: 50%;
+        margin-left: -360px;
+        top: 50%;
+        margin-top: -218px;
+        border-radius: 15px;
+        display: none;
+    }
+    .plane {
+        width: 134px;
+        height: 117px;
+        margin-left: 0;
+        margin-top: 0;
+        top: 40%;
+        left: 40%;
+        box-shadow: none !important;
     }
 
     #exchange-form {
@@ -299,6 +410,8 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        position: relative;
+        z-index: 30;
         .top-exchange {
             display: flex;
             justify-content: space-between;
@@ -407,6 +520,10 @@
                 transform: translateY(6px);
                 box-shadow: none !important;
             }
+            &:active, &:focus {
+                border: none;
+                outline: none;
+            }
         }
         .go-back {
             margin-top: 30px;
@@ -444,11 +561,72 @@
         }
     }
 
-    .animate-hide {
+    .animate-hide-rotate {
         animation: rotate-hide 0.8s linear;
     }
     .animate-show {
         animation: show 0.6s linear;
+    }
+    .animate-compress {
+        animation: compress 0.7s linear;
+    }
+    .animate-scale-fade {
+        animation: scale-fade 0.7s linear;
+        z-index: -1;
+    }
+    .animate-plane-fly {
+        animation: plane-fly 0.9s linear;
+        animation-delay: 0.5s;
+    }
+    .animate-fade {
+        animation: fade 0.6s linear;
+        animation-delay: 0.4s;
+    }
+    .animate-transform {
+        animation: go-up 0.5s linear;
+        animation-delay: 0.5s;
+        animation-fill-mode: forwards;
+    }
+
+    .transparent {
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+
+    .animate-width-reduce {
+        animation: width-reduce 0.9s linear;
+    }
+
+    .animate-scale-show {
+        animation: scale-show 0.9s linear;
+    }
+
+    .animate-fast-fade {
+        animation: fast-fade 0.3s linear;
+    }
+
+    .animate-fast-show {
+        animation: fast-show 0.3s linear;
+    }
+
+    @keyframes scale-show {
+        0% {
+            transform: scale(0.1);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    @keyframes width-reduce {
+        0% {
+            width: 430px;
+            border-radius: 15px
+        }
+        100% {
+            width: 120px;
+            border-radius: 50%;
+        }
     }
 
     @keyframes rotate-hide {
@@ -456,13 +634,13 @@
             transform: rotate(0) scale(1);
         }
         25% {
-            transform: rotate(100deg) scale(.75);
+            transform: rotate(100deg) scale(.65);
         }
         50% {
-            transform: rotate(200deg) scale(.5);
+            transform: rotate(200deg) scale(.40);
         }
         75% {
-            transform: rotate(300deg) scale(.25);
+            transform: rotate(300deg) scale(.15);
         }
         100% {
             transform: rotate(400deg) scale(0);
@@ -478,6 +656,98 @@
         }
         100% {
             transform: scale(1);
+        }
+    }
+
+    @keyframes compress {
+        0% {
+            transform: rotate(0) scale(1) translate(0, 0);
+        }
+        30% {
+            transform: rotate(-15deg) scale(0.7) translate(-20px, 20px);
+        }
+        60% {
+            transform: rotate(-25deg) scale(0.5) translate(-30px, 35px);
+        }
+        100% {
+            transform: rotate(-35deg) scale(0.2) translate(-50px, 60px);
+        }
+    }
+
+    @keyframes scale-fade {
+        0% {
+            transform: scale(1);
+            opacity: 1;
+        }
+        50% {
+            transform: scale(1.1);
+            opacity: 0.5;
+        }
+        100% {
+            transform: scale(1.2);
+            opacity: 0;
+        }
+    }
+
+    @keyframes plane-fly {
+        0% {
+            transform: rotate(0) translate(0, 0);
+            opacity: 1;
+        }
+        20% {
+            transform: rotate(10deg) translate(20px, -15px);
+            opacity: 1;
+        }
+        40% {
+            transform: rotate(20deg) translate(50px, -60px);
+            opacity: 1
+        }
+        60% {
+            transform: rotate(30deg) translate(80px, -130px);
+            opacity: 0.7
+        }
+        100% {
+            transform: rotate(36deg) translate(140px, -220px);
+            opacity: 0
+        }
+    }
+
+    @keyframes fade {
+        0% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0
+        }
+    }
+
+    @keyframes go-up {
+        0% {
+            transform: translateY(0);
+        }
+        100% {
+            transform: translateY(-200px);
+        }
+    }
+
+    @keyframes fast-fade {
+        0% {
+            transform: scale(1);
+            opacity: 1;
+        }
+        100% {
+            transform: scale(0);
+            opacity: 0;
+        }
+    }
+    @keyframes fast-show {
+        0% {
+            transform: scale(1.1);
+            opacity: 0
+        }
+        100% {
+            transform: scale(1);
+            opacity: 1;
         }
     }
 </style>

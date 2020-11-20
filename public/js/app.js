@@ -1970,6 +1970,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2057,11 +2058,21 @@ __webpack_require__.r(__webpack_exports__);
       } else this.price = 1;
     },
     showForm: function showForm(event) {
-      event.target.classList.add('animate-hide');
+      var btn = document.querySelector('.press-me-btn');
+      var btnText = btn.children[0];
+      var form = document.querySelector('.exchange-block');
+      btnText.classList.add('animate-hide-rotate');
+      btn.classList.add('animate-width-reduce');
+      btn.classList.remove('animate-fast-show');
       setTimeout(function () {
-        event.target.style.display = 'none';
-        event.target.nextElementSibling.classList.add('animate-show');
-        event.target.nextElementSibling.style.display = 'block';
+        btn.style.width = '120px';
+        btn.style.borderRadius = '50%';
+        btnText.style.display = 'none';
+        btn.style.display = 'none';
+        form.classList.add('animate-scale-show');
+        form.style.display = 'block';
+        document.getElementById('exchange-form').style.opacity = 1;
+        document.getElementById('exchange-form').style.zIndex = 1;
       }, 800);
     },
     toggleVisible: function toggleVisible() {
@@ -2085,6 +2096,62 @@ __webpack_require__.r(__webpack_exports__);
         wrapper.classList.remove('light');
         wrapper.classList.add('dark');
       }
+    },
+    sendMoney: function sendMoney() {
+      var animatePlane = document.querySelector('.animate-plane');
+      var form = document.getElementById('exchange-form');
+      var sendBtn = document.querySelector('.send');
+      var goBack = document.querySelector('.go-back');
+      form.classList.add('transparent', 'animate-scale-fade');
+      animatePlane.style.display = 'block';
+      animatePlane.classList.add('animate-compress');
+      setTimeout(function () {
+        form.style.opacity = 0;
+        form.style.zIndex = -1;
+        animatePlane.classList.add('plane');
+        animatePlane.classList.add('animate-plane-fly');
+        setTimeout(function () {
+          animatePlane.style.display = 'none';
+          sendBtn.classList.add('animate-fade');
+          goBack.classList.add('animate-transform');
+          setTimeout(function () {
+            sendBtn.style.opacity = 0;
+            sendBtn.style.zIndex = -1;
+          }, 900);
+        }, 1300);
+      }, 700);
+      var finalSum = parseFloat(document.getElementById('you-get-sum').value.substr(2));
+      var currentCurrency = document.getElementById('crypto').value;
+      console.log(finalSum);
+      console.log(currentCurrency);
+    },
+    goBack: function goBack(event) {
+      event.preventDefault();
+      var pressMeBtn = document.querySelector('.press-me-btn');
+      var exchangeBlock = document.querySelector('.exchange-block');
+      var animatePlane = document.querySelector('.animate-plane');
+      var form = document.getElementById('exchange-form');
+      var sendBtn = document.querySelector('.send');
+      var goBack = document.querySelector('.go-back');
+      pressMeBtn.classList.remove('animate-width-reduce');
+      exchangeBlock.classList.remove('animate-scale-show');
+      exchangeBlock.classList.add('animate-fast-fade');
+      animatePlane.classList.remove('animate-compress', 'plane', 'animate-plane-fly');
+      form.classList.remove('transparent', 'animate-scale-fade');
+      sendBtn.classList.remove('animate-fade');
+      goBack.classList.remove('animate-transform');
+      setTimeout(function () {
+        exchangeBlock.style.display = 'none';
+        exchangeBlock.classList.remove('animate-fast-fade');
+        pressMeBtn.classList.add('animate-fast-show');
+        pressMeBtn.style.display = 'block';
+        pressMeBtn.style.width = '430px';
+        pressMeBtn.style.borderRadius = '15px';
+        pressMeBtn.children[0].style.display = 'block';
+        pressMeBtn.children[0].classList.remove('animate-hide-rotate');
+        sendBtn.style.opacity = 1;
+        sendBtn.style.zIndex = 1;
+      }, 300);
     }
   }
 });
@@ -6531,7 +6598,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "#wrapper {\n  position: relative;\n}\n#wrapper.dark {\n  background: #242432;\n}\n#wrapper.dark .press-me-btn {\n  background: #31313e;\n  color: #f0f0ff;\n  box-shadow: 0 24px 30px rgba(0, 0, 0, 0.15);\n}\n#wrapper.dark #exchange-form {\n  background: #31313e;\n  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);\n}\n#wrapper.dark input, #wrapper.dark select, #wrapper.dark option {\n  background: #3b3b49;\n  color: #fba700;\n}\n#wrapper.dark .currency::before {\n  background: #fba700;\n}\n#wrapper.dark .currency::after {\n  background: #fba700;\n}\n#wrapper.dark label {\n  color: #f0f0ff;\n}\n#wrapper.dark .ctrl-btns .send {\n  background: #fba700;\n  color: #fff;\n  box-shadow: 0 15px 15px rgba(9, 9, 25, 0.2);\n}\n#wrapper.dark .ctrl-btns .go-back {\n  color: #fba700;\n}\n#wrapper.light {\n  background: #f0f0ff;\n}\n#wrapper.light .press-me-btn {\n  background: #fff;\n  color: #000;\n  box-shadow: 0 24px 30px rgba(9, 9, 25, 0.05);\n}\n#wrapper.light #exchange-form {\n  background: #fff;\n  box-shadow: 0 15px 30px rgba(9, 9, 25, 0.05);\n}\n#wrapper.light input, #wrapper.light select, #wrapper.light option {\n  background: #f5f5ff;\n  color: #2929cc;\n}\n#wrapper.light .currency::before {\n  background: #2929cc;\n}\n#wrapper.light .currency::after {\n  background: #2929cc;\n}\n#wrapper.light label {\n  color: #000;\n}\n#wrapper.light .ctrl-btns .send {\n  background: #2929cc;\n  color: #fff;\n  box-shadow: 0 15px 15px rgba(9, 9, 25, 0.2);\n}\n#wrapper.light .ctrl-btns .go-back {\n  color: #2929cc;\n}\n.exchange-component {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.press-me-btn {\n  position: absolute;\n  top: 50%;\n  margin-top: -60px;\n  left: 50%;\n  margin-left: -215px;\n  height: 120px;\n  width: 430px;\n  font-size: 40px;\n  font-weight: bold;\n  border: none;\n  border-radius: 15px;\n}\n.press-me-btn:focus, .press-me-btn:active {\n  outline: none;\n  border: none;\n}\n#exchange-form {\n  width: 720px;\n  height: 277px;\n  border-radius: 15px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n}\n#exchange-form .top-exchange {\n  display: flex;\n  justify-content: space-between;\n}\n#exchange-form .top-exchange > div {\n  display: flex;\n  flex-direction: column;\n  margin: 12px 14px;\n}\n#exchange-form .top-exchange > div.withdrawal-sum, #exchange-form .top-exchange > div.our-comission {\n  width: 224px;\n}\n#exchange-form .top-exchange > div.currency-change {\n  width: 112px;\n}\n#exchange-form .bottom-exchange {\n  display: flex;\n  justify-content: space-between;\n}\n#exchange-form .bottom-exchange > div {\n  display: flex;\n  flex-direction: column;\n  margin: 12px 14px;\n}\n#exchange-form .bottom-exchange > div.we-send, #exchange-form .bottom-exchange > div.you-get {\n  width: 224px;\n}\n#exchange-form .bottom-exchange > div.currency-change {\n  width: 112px;\n}\n#exchange-form input, #exchange-form select, #exchange-form option {\n  text-align: center;\n  border-radius: 15px;\n  font-size: 16px;\n  font-weight: 300;\n  outline: none;\n  border: none;\n}\n#exchange-form input:focus, #exchange-form input:active, #exchange-form select:focus, #exchange-form select:active, #exchange-form option:focus, #exchange-form option:active {\n  outline: none;\n  border: none;\n}\n#exchange-form input {\n  height: 58px;\n  width: 224px;\n}\n#exchange-form select, #exchange-form option {\n  width: 112px;\n  height: 58px;\n}\n#exchange-form select {\n  -webkit-appearance: none;\n     -moz-appearance: none;\n          appearance: none;\n  padding: 0 25px;\n  position: relative;\n  z-index: 10;\n}\n#exchange-form .currency {\n  position: relative;\n}\n#exchange-form .currency::before {\n  content: \"\";\n  position: absolute;\n  display: block;\n  right: 28px;\n  top: 28px;\n  width: 12px;\n  height: 2px;\n  transform: rotate(44deg);\n  z-index: 20;\n}\n#exchange-form .currency::after {\n  content: \"\";\n  position: absolute;\n  display: block;\n  right: 20px;\n  width: 12px;\n  top: 28px;\n  height: 2px;\n  transform: rotate(-44deg);\n  z-index: 20;\n}\n#exchange-form label {\n  font-size: 16px;\n  font-weight: 300;\n}\n.ctrl-btns {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  margin-top: 30px;\n}\n.ctrl-btns .send {\n  width: 240px;\n  position: relative;\n  height: 60px;\n  text-align: center;\n  line-height: 60px;\n  border-radius: 30px;\n  font-size: 20px;\n  font-weight: bold;\n  transition: all 0.3s ease-out;\n}\n.ctrl-btns .send:hover {\n  transform: translateY(6px);\n  box-shadow: none !important;\n}\n.ctrl-btns .go-back {\n  margin-top: 30px;\n  font-size: 24px;\n  font-weight: 300;\n  color: #fba700;\n}\n.ctrl-btns .go-back:hover {\n  text-decoration: none;\n}\n.time-mode-btn {\n  position: absolute;\n  bottom: 7%;\n  left: 50%;\n  margin-left: -50px;\n  width: 100px;\n  height: 52px;\n}\n.time-mode-btn #change-time-mode {\n  height: 100%;\n  width: 100%;\n  border: none;\n}\n.time-mode-btn #change-time-mode:focus, .time-mode-btn #change-time-mode:active {\n  border: none;\n  outline: none;\n}\n.time-mode-btn #change-time-mode.dark-mode {\n  background: url(\"/img/night.svg\") no-repeat;\n}\n.time-mode-btn #change-time-mode.light-mode {\n  background: url(\"/img/daynight.svg\") no-repeat;\n}\n.animate-hide {\n  -webkit-animation: rotate-hide 0.8s linear;\n          animation: rotate-hide 0.8s linear;\n}\n.animate-show {\n  -webkit-animation: show 0.6s linear;\n          animation: show 0.6s linear;\n}\n@-webkit-keyframes rotate-hide {\n0% {\n    transform: rotate(0) scale(1);\n}\n25% {\n    transform: rotate(100deg) scale(0.75);\n}\n50% {\n    transform: rotate(200deg) scale(0.5);\n}\n75% {\n    transform: rotate(300deg) scale(0.25);\n}\n100% {\n    transform: rotate(400deg) scale(0);\n}\n}\n@keyframes rotate-hide {\n0% {\n    transform: rotate(0) scale(1);\n}\n25% {\n    transform: rotate(100deg) scale(0.75);\n}\n50% {\n    transform: rotate(200deg) scale(0.5);\n}\n75% {\n    transform: rotate(300deg) scale(0.25);\n}\n100% {\n    transform: rotate(400deg) scale(0);\n}\n}\n@-webkit-keyframes show {\n0% {\n    transform: scale(0);\n}\n50% {\n    transform: scale(0.5);\n}\n100% {\n    transform: scale(1);\n}\n}\n@keyframes show {\n0% {\n    transform: scale(0);\n}\n50% {\n    transform: scale(0.5);\n}\n100% {\n    transform: scale(1);\n}\n}", ""]);
+exports.push([module.i, "#wrapper {\n  position: relative;\n}\n#wrapper.dark {\n  background: #242432;\n}\n#wrapper.dark .press-me-btn {\n  background: #31313e;\n  color: #f0f0ff;\n  box-shadow: 0 24px 30px rgba(0, 0, 0, 0.15);\n}\n#wrapper.dark .animate-plane {\n  background: #31313e;\n  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);\n}\n#wrapper.dark .plane {\n  background: url(\"/img/plane_d.svg\") no-repeat !important;\n}\n#wrapper.dark #exchange-form {\n  background: #31313e;\n  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);\n}\n#wrapper.dark input, #wrapper.dark select, #wrapper.dark option {\n  background: #3b3b49;\n  color: #fba700;\n}\n#wrapper.dark .currency::before {\n  background: #fba700;\n}\n#wrapper.dark .currency::after {\n  background: #fba700;\n}\n#wrapper.dark label {\n  color: #f0f0ff;\n}\n#wrapper.dark .ctrl-btns .send {\n  background: #fba700;\n  color: #fff;\n  box-shadow: 0 15px 15px rgba(9, 9, 25, 0.2);\n}\n#wrapper.dark .ctrl-btns .go-back {\n  color: #fba700;\n}\n#wrapper.light {\n  background: #f0f0ff;\n}\n#wrapper.light .press-me-btn {\n  background: #fff;\n  color: #000;\n  box-shadow: 0 24px 30px rgba(9, 9, 25, 0.05);\n}\n#wrapper.light .animate-plane {\n  background: #fff;\n  box-shadow: 0 15px 30px rgba(9, 9, 25, 0.05);\n}\n#wrapper.light .plane {\n  background: url(\"/img/plane_l.svg\") no-repeat !important;\n}\n#wrapper.light #exchange-form {\n  background: #fff;\n  box-shadow: 0 15px 30px rgba(9, 9, 25, 0.05);\n}\n#wrapper.light input, #wrapper.light select, #wrapper.light option {\n  background: #f5f5ff;\n  color: #2929cc;\n}\n#wrapper.light .currency::before {\n  background: #2929cc;\n}\n#wrapper.light .currency::after {\n  background: #2929cc;\n}\n#wrapper.light label {\n  color: #000;\n}\n#wrapper.light .ctrl-btns .send {\n  background: #2929cc;\n  color: #fff;\n  box-shadow: 0 15px 15px rgba(9, 9, 25, 0.2);\n}\n#wrapper.light .ctrl-btns .go-back {\n  color: #2929cc;\n}\n.exchange-component {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.press-me-btn {\n  height: 120px;\n  width: 430px;\n  font-size: 40px;\n  font-weight: bold;\n  border: none;\n  border-radius: 15px;\n}\n.press-me-btn > span {\n  width: 100%;\n  height: 100%;\n}\n.press-me-btn:focus, .press-me-btn:active {\n  outline: none;\n  border: none;\n}\n.animate-plane {\n  width: 720px;\n  height: 278px;\n  position: absolute;\n  left: 50%;\n  margin-left: -360px;\n  top: 50%;\n  margin-top: -218px;\n  border-radius: 15px;\n  display: none;\n}\n.plane {\n  width: 134px;\n  height: 117px;\n  margin-left: 0;\n  margin-top: 0;\n  top: 40%;\n  left: 40%;\n  box-shadow: none !important;\n}\n#exchange-form {\n  width: 720px;\n  height: 277px;\n  border-radius: 15px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  position: relative;\n  z-index: 30;\n}\n#exchange-form .top-exchange {\n  display: flex;\n  justify-content: space-between;\n}\n#exchange-form .top-exchange > div {\n  display: flex;\n  flex-direction: column;\n  margin: 12px 14px;\n}\n#exchange-form .top-exchange > div.withdrawal-sum, #exchange-form .top-exchange > div.our-comission {\n  width: 224px;\n}\n#exchange-form .top-exchange > div.currency-change {\n  width: 112px;\n}\n#exchange-form .bottom-exchange {\n  display: flex;\n  justify-content: space-between;\n}\n#exchange-form .bottom-exchange > div {\n  display: flex;\n  flex-direction: column;\n  margin: 12px 14px;\n}\n#exchange-form .bottom-exchange > div.we-send, #exchange-form .bottom-exchange > div.you-get {\n  width: 224px;\n}\n#exchange-form .bottom-exchange > div.currency-change {\n  width: 112px;\n}\n#exchange-form input, #exchange-form select, #exchange-form option {\n  text-align: center;\n  border-radius: 15px;\n  font-size: 16px;\n  font-weight: 300;\n  outline: none;\n  border: none;\n}\n#exchange-form input:focus, #exchange-form input:active, #exchange-form select:focus, #exchange-form select:active, #exchange-form option:focus, #exchange-form option:active {\n  outline: none;\n  border: none;\n}\n#exchange-form input {\n  height: 58px;\n  width: 224px;\n}\n#exchange-form select, #exchange-form option {\n  width: 112px;\n  height: 58px;\n}\n#exchange-form select {\n  -webkit-appearance: none;\n     -moz-appearance: none;\n          appearance: none;\n  padding: 0 25px;\n  position: relative;\n  z-index: 10;\n}\n#exchange-form .currency {\n  position: relative;\n}\n#exchange-form .currency::before {\n  content: \"\";\n  position: absolute;\n  display: block;\n  right: 28px;\n  top: 28px;\n  width: 12px;\n  height: 2px;\n  transform: rotate(44deg);\n  z-index: 20;\n}\n#exchange-form .currency::after {\n  content: \"\";\n  position: absolute;\n  display: block;\n  right: 20px;\n  width: 12px;\n  top: 28px;\n  height: 2px;\n  transform: rotate(-44deg);\n  z-index: 20;\n}\n#exchange-form label {\n  font-size: 16px;\n  font-weight: 300;\n}\n.ctrl-btns {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  margin-top: 30px;\n}\n.ctrl-btns .send {\n  width: 240px;\n  position: relative;\n  height: 60px;\n  text-align: center;\n  line-height: 60px;\n  border-radius: 30px;\n  font-size: 20px;\n  font-weight: bold;\n  transition: all 0.3s ease-out;\n}\n.ctrl-btns .send:hover {\n  transform: translateY(6px);\n  box-shadow: none !important;\n}\n.ctrl-btns .send:active, .ctrl-btns .send:focus {\n  border: none;\n  outline: none;\n}\n.ctrl-btns .go-back {\n  margin-top: 30px;\n  font-size: 24px;\n  font-weight: 300;\n  color: #fba700;\n}\n.ctrl-btns .go-back:hover {\n  text-decoration: none;\n}\n.time-mode-btn {\n  position: absolute;\n  bottom: 7%;\n  left: 50%;\n  margin-left: -50px;\n  width: 100px;\n  height: 52px;\n}\n.time-mode-btn #change-time-mode {\n  height: 100%;\n  width: 100%;\n  border: none;\n}\n.time-mode-btn #change-time-mode:focus, .time-mode-btn #change-time-mode:active {\n  border: none;\n  outline: none;\n}\n.time-mode-btn #change-time-mode.dark-mode {\n  background: url(\"/img/night.svg\") no-repeat;\n}\n.time-mode-btn #change-time-mode.light-mode {\n  background: url(\"/img/daynight.svg\") no-repeat;\n}\n.animate-hide-rotate {\n  -webkit-animation: rotate-hide 0.8s linear;\n          animation: rotate-hide 0.8s linear;\n}\n.animate-show {\n  -webkit-animation: show 0.6s linear;\n          animation: show 0.6s linear;\n}\n.animate-compress {\n  -webkit-animation: compress 0.7s linear;\n          animation: compress 0.7s linear;\n}\n.animate-scale-fade {\n  -webkit-animation: scale-fade 0.7s linear;\n          animation: scale-fade 0.7s linear;\n  z-index: -1;\n}\n.animate-plane-fly {\n  -webkit-animation: plane-fly 0.9s linear;\n          animation: plane-fly 0.9s linear;\n  -webkit-animation-delay: 0.5s;\n          animation-delay: 0.5s;\n}\n.animate-fade {\n  -webkit-animation: fade 0.6s linear;\n          animation: fade 0.6s linear;\n  -webkit-animation-delay: 0.4s;\n          animation-delay: 0.4s;\n}\n.animate-transform {\n  -webkit-animation: go-up 0.5s linear;\n          animation: go-up 0.5s linear;\n  -webkit-animation-delay: 0.5s;\n          animation-delay: 0.5s;\n  -webkit-animation-fill-mode: forwards;\n          animation-fill-mode: forwards;\n}\n.transparent {\n  background: transparent !important;\n  box-shadow: none !important;\n}\n.animate-width-reduce {\n  -webkit-animation: width-reduce 0.9s linear;\n          animation: width-reduce 0.9s linear;\n}\n.animate-scale-show {\n  -webkit-animation: scale-show 0.9s linear;\n          animation: scale-show 0.9s linear;\n}\n.animate-fast-fade {\n  -webkit-animation: fast-fade 0.3s linear;\n          animation: fast-fade 0.3s linear;\n}\n.animate-fast-show {\n  -webkit-animation: fast-show 0.3s linear;\n          animation: fast-show 0.3s linear;\n}\n@-webkit-keyframes scale-show {\n0% {\n    transform: scale(0.1);\n}\n100% {\n    transform: scale(1);\n}\n}\n@keyframes scale-show {\n0% {\n    transform: scale(0.1);\n}\n100% {\n    transform: scale(1);\n}\n}\n@-webkit-keyframes width-reduce {\n0% {\n    width: 430px;\n    border-radius: 15px;\n}\n100% {\n    width: 120px;\n    border-radius: 50%;\n}\n}\n@keyframes width-reduce {\n0% {\n    width: 430px;\n    border-radius: 15px;\n}\n100% {\n    width: 120px;\n    border-radius: 50%;\n}\n}\n@-webkit-keyframes rotate-hide {\n0% {\n    transform: rotate(0) scale(1);\n}\n25% {\n    transform: rotate(100deg) scale(0.65);\n}\n50% {\n    transform: rotate(200deg) scale(0.4);\n}\n75% {\n    transform: rotate(300deg) scale(0.15);\n}\n100% {\n    transform: rotate(400deg) scale(0);\n}\n}\n@keyframes rotate-hide {\n0% {\n    transform: rotate(0) scale(1);\n}\n25% {\n    transform: rotate(100deg) scale(0.65);\n}\n50% {\n    transform: rotate(200deg) scale(0.4);\n}\n75% {\n    transform: rotate(300deg) scale(0.15);\n}\n100% {\n    transform: rotate(400deg) scale(0);\n}\n}\n@-webkit-keyframes show {\n0% {\n    transform: scale(0);\n}\n50% {\n    transform: scale(0.5);\n}\n100% {\n    transform: scale(1);\n}\n}\n@keyframes show {\n0% {\n    transform: scale(0);\n}\n50% {\n    transform: scale(0.5);\n}\n100% {\n    transform: scale(1);\n}\n}\n@-webkit-keyframes compress {\n0% {\n    transform: rotate(0) scale(1) translate(0, 0);\n}\n30% {\n    transform: rotate(-15deg) scale(0.7) translate(-20px, 20px);\n}\n60% {\n    transform: rotate(-25deg) scale(0.5) translate(-30px, 35px);\n}\n100% {\n    transform: rotate(-35deg) scale(0.2) translate(-50px, 60px);\n}\n}\n@keyframes compress {\n0% {\n    transform: rotate(0) scale(1) translate(0, 0);\n}\n30% {\n    transform: rotate(-15deg) scale(0.7) translate(-20px, 20px);\n}\n60% {\n    transform: rotate(-25deg) scale(0.5) translate(-30px, 35px);\n}\n100% {\n    transform: rotate(-35deg) scale(0.2) translate(-50px, 60px);\n}\n}\n@-webkit-keyframes scale-fade {\n0% {\n    transform: scale(1);\n    opacity: 1;\n}\n50% {\n    transform: scale(1.1);\n    opacity: 0.5;\n}\n100% {\n    transform: scale(1.2);\n    opacity: 0;\n}\n}\n@keyframes scale-fade {\n0% {\n    transform: scale(1);\n    opacity: 1;\n}\n50% {\n    transform: scale(1.1);\n    opacity: 0.5;\n}\n100% {\n    transform: scale(1.2);\n    opacity: 0;\n}\n}\n@-webkit-keyframes plane-fly {\n0% {\n    transform: rotate(0) translate(0, 0);\n    opacity: 1;\n}\n20% {\n    transform: rotate(10deg) translate(20px, -15px);\n    opacity: 1;\n}\n40% {\n    transform: rotate(20deg) translate(50px, -60px);\n    opacity: 1;\n}\n60% {\n    transform: rotate(30deg) translate(80px, -130px);\n    opacity: 0.7;\n}\n100% {\n    transform: rotate(36deg) translate(140px, -220px);\n    opacity: 0;\n}\n}\n@keyframes plane-fly {\n0% {\n    transform: rotate(0) translate(0, 0);\n    opacity: 1;\n}\n20% {\n    transform: rotate(10deg) translate(20px, -15px);\n    opacity: 1;\n}\n40% {\n    transform: rotate(20deg) translate(50px, -60px);\n    opacity: 1;\n}\n60% {\n    transform: rotate(30deg) translate(80px, -130px);\n    opacity: 0.7;\n}\n100% {\n    transform: rotate(36deg) translate(140px, -220px);\n    opacity: 0;\n}\n}\n@-webkit-keyframes fade {\n0% {\n    opacity: 1;\n}\n100% {\n    opacity: 0;\n}\n}\n@keyframes fade {\n0% {\n    opacity: 1;\n}\n100% {\n    opacity: 0;\n}\n}\n@-webkit-keyframes go-up {\n0% {\n    transform: translateY(0);\n}\n100% {\n    transform: translateY(-200px);\n}\n}\n@keyframes go-up {\n0% {\n    transform: translateY(0);\n}\n100% {\n    transform: translateY(-200px);\n}\n}\n@-webkit-keyframes fast-fade {\n0% {\n    transform: scale(1);\n    opacity: 1;\n}\n100% {\n    transform: scale(0);\n    opacity: 0;\n}\n}\n@keyframes fast-fade {\n0% {\n    transform: scale(1);\n    opacity: 1;\n}\n100% {\n    transform: scale(0);\n    opacity: 0;\n}\n}\n@-webkit-keyframes fast-show {\n0% {\n    transform: scale(1.1);\n    opacity: 0;\n}\n100% {\n    transform: scale(1);\n    opacity: 1;\n}\n}\n@keyframes fast-show {\n0% {\n    transform: scale(1.1);\n    opacity: 0;\n}\n100% {\n    transform: scale(1);\n    opacity: 1;\n}\n}", ""]);
 
 // exports
 
@@ -38328,7 +38395,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "exchange-component" }, [
     _c("button", { staticClass: "press-me-btn", on: { click: _vm.showForm } }, [
-      _vm._v("Press me")
+      _c("div", [_vm._v("Press me")])
     ]),
     _vm._v(" "),
     _c(
@@ -38345,6 +38412,8 @@ var render = function() {
         staticClass: "exchange-block"
       },
       [
+        _c("div", { staticClass: "animate-plane" }),
+        _vm._v(" "),
         _c("form", { attrs: { action: "/", id: "exchange-form" } }, [
           _c("div", { staticClass: "top-exchange" }, [
             _c("div", { staticClass: "withdrawal-sum" }, [
@@ -38488,7 +38557,21 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _vm._m(0)
+        _c("div", { staticClass: "ctrl-btns" }, [
+          _c("button", { staticClass: "send", on: { click: _vm.sendMoney } }, [
+            _vm._v("Press me")
+          ]),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "go-back",
+              attrs: { href: "/" },
+              on: { click: _vm.goBack }
+            },
+            [_vm._v("Go back")]
+          )
+        ])
       ]
     ),
     _vm._v(" "),
@@ -38501,20 +38584,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "ctrl-btns" }, [
-      _c("button", { staticClass: "send" }, [_vm._v("Press me")]),
-      _vm._v(" "),
-      _c("a", { staticClass: "go-back", attrs: { href: "/" } }, [
-        _vm._v("Go back")
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
